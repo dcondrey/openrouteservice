@@ -408,34 +408,29 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.GIScience.graphhopper</groupId>
-            <artifactId>graphhopper-core</artifactId>
-            <version>v0.13.21</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.GIScience.graphhopper</groupId>
-            <artifactId>graphhopper-reader-osm</artifactId>
-            <version>v0.13.21</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.GIScience.graphhopper</groupId>
-            <artifactId>graphhopper-api</artifactId>
-            <version>v0.13.21</version>
-        </dependency>
-
         <!-- remove the comment to enable debugging
         <dependency>
-            <groupId>com.graphhopper</groupId>
+            <groupId>com.github.GIScience.graphhopper</groupId>
             <artifactId>graphhopper-core</artifactId>
-            <version>0.13-SNAPSHOT</version>
+            <version>v0.13.21</version>
         </dependency>
 
         <dependency>
-            <groupId>com.graphhopper</groupId>
+            <groupId>com.github.GIScience.graphhopper</groupId>
+            <artifactId>graphhopper-reader-osm</artifactId>
+            <version>v0.13.21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.GIScience.graphhopper</groupId>
             <artifactId>graphhopper-api</artifactId>
+            <version>v0.13.21</version>
+        </dependency>
+        -->
+
+        <dependency>
+            <groupId>com.graphhopper</groupId>
+            <artifactId>graphhopper-core</artifactId>
             <version>0.13-SNAPSHOT</version>
         </dependency>
 
@@ -444,7 +439,47 @@
             <artifactId>graphhopper-reader-osm</artifactId>
             <version>0.13-SNAPSHOT</version>
         </dependency>
+
+        <!--
+
+
+        Pulling in graphhopper-gtfs messes up output of ORS, might have something to do with transient dependency on
+        logback-classic via dropwizard as indicated by the following
+
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/home/taki/.m2/repository/org/slf4j/slf4j-log4j12/1.7.32/slf4j-log4j12-1.7.32.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/taki/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+
+        Anyway, the startup process doesn't seem to run. Also, these lines are added to the spring startup log
+
+Jun 03, 2022 1:56:36 PM org.apache.catalina.loader.WebappClassLoaderBase validateJarFile
+INFO: validateJarFile(/home/taki/dev/openrouteservice/openrouteservice/target/ors/WEB-INF/lib/jakarta.el-3.0.3.jar) - jar not loaded. See Servlet Spec 3.0, section 10.7.2. Offending class: javax/el/Expression.class
+Jun 03, 2022 1:56:36 PM org.apache.catalina.loader.WebappClassLoaderBase validateJarFile
+INFO: validateJarFile(/home/taki/dev/openrouteservice/openrouteservice/target/ors/WEB-INF/lib/jakarta.el-api-3.0.3.jar) - jar not loaded. See Servlet Spec 3.0, section 10.7.2. Offending class: javax/el/Expression.class
+Jun 03, 2022 1:56:36 PM org.apache.catalina.loader.WebappClassLoaderBase validateJarFile
+INFO: validateJarFile(/home/taki/dev/openrouteservice/openrouteservice/target/ors/WEB-INF/lib/javax.el-3.0.0.jar) - jar not loaded. See Servlet Spec 3.0, section 10.7.2. Offending class: javax/el/Expression.class
+
         -->
+        <dependency>
+            <groupId>com.graphhopper</groupId>
+            <artifactId>graphhopper-reader-gtfs</artifactId>
+            <version>0.13-SNAPSHOT</version>
+            <!--  This exclusion is needed to get the tests to run through -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>log4j-over-slf4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.graphhopper</groupId>
+            <artifactId>graphhopper-api</artifactId>
+            <version>0.13-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>com.typesafe</groupId>
